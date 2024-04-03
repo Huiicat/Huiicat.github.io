@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
+    <title>填空計算表單</title>
+    <style>
+    body {
+        font-family: Microsoft JhengHei, sans-serif;
+        font-size: 2vw;
+    }
+    .container {
+        max-width: 80vw;
+        margin: 0 auto;
+        padding: 1vw;
+    }
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        overflow: hidden;
+    }
+
+    th, td {
+        text-align: center;
+    }
+    th {
+        background-color: #f3e5f5;
+        color: #673ab7;
+        font-weight: bold;
+    }
+    .table_title {
+          text-align: center;
+          font-weight: bold;
+     }
+    h4 {
+        font-size: 4vw;
+        color: #336666;
+        margin-top: 20px;
+        text-align: center;
+    }
+    .sheet_title {
+        width: 2vw;
+    }
+    .enter_width {
+        width: 17vw;
+    }
+    .box_style {
+        width: 15vw;
+        text-align: left;
+    }
+    .input {
+        width: 70%;
+    }
+
+
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h4 class="mt-4 mb-3">2024電費級距</h4>
+    <table class="table table-striped">
+        <thead class="thead-dark">
+        <tr>
+            <th class="table_title" rowspan="2">級距<br>(每月)</th>
+            <th class="table_title" colspan="2">台電電費<br>(調整前)</th>
+            <th class="table_title" colspan="2">台電電費<br>(2024/04調整後)</th>
+            <th class="table_title" colspan="2">調漲幅度</th>
+        </tr>
+        </thead>
+        <td></td>
+        <td class="table_title">夏季</td>
+        <td class="table_title">非夏季</td>
+        <td class="table_title">夏季</td>
+        <td class="table_title">非夏季</td>
+        <td class="table_title">夏季</td>
+        <td class="table_title">非夏季</td>
+        <tr>
+            <td>0-120</td>
+            <td id="before_summer_0_120">1.63</td>
+            <td id="before_winter_0_120">1.63</td>
+            <td id="after_summer_0_120">1.68</td>
+            <td id="after_winter_0_120">1.68</td>
+            <td id="summer_increase_0_120">3.07%</td>
+            <td id="winter_increase_0_120">3.07%</td>
+        </tr>
+        <tr>
+            <td>121-330</td>
+            <td id="before_summer_121_330">2.38</td>
+            <td id="before_winter_121_330">2.1</td>
+            <td id="after_summer_121_330">2.45</td>
+            <td id="after_winter_121_330">2.16</td>
+            <td id="summer_increase_121_330">2.94%</td>
+            <td id="winter_increase_121_330">2.86%</td>
+        </tr>
+        <tr>
+            <td>331-500</td>
+            <td id="before_summer_331_500">3.52</td>
+            <td id="before_winter_331_500">2.89</td>
+            <td id="after_summer_331_500">3.7</td>
+            <td id="after_winter_331_500">3.03</td>
+            <td id="summer_increase_331_500">5.11%</td>
+            <td id="winter_increase_331_500">4.84%</td>
+        </tr>
+        <tr>
+            <td>501-700</td>
+            <td id="before_summer_501_700">4.8</td>
+            <td id="before_winter_501_700">3.94</td>
+            <td id="after_summer_501_700">5.04</td>
+            <td id="after_winter_501_700">4.14</td>
+            <td id="summer_increase_501_700">5%</td>
+            <td id="winter_increase_501_700">5.08%</td>
+        </tr>
+        <tr>
+            <td>701-1000</td>
+            <td id="before_summer_701_1000">5.83</td>
+            <td id="before_winter_701_1000">4.74</td>
+            <td id="after_summer_701_1000">6.24</td>
+            <td id="after_winter_701_1000">5.07</td>
+            <td id="summer_increase_701_1000">7.03%</td>
+            <td id="winter_increase_701_1000">6.96%</td>
+        </tr>
+        <tr>
+            <td>1000以上</td>
+            <td id="before_summer_1000_above">7.69</td>
+            <td id="before_winter_1000_above">6.03</td>
+            <td id="after_summer_1000_above">8.46</td>
+            <td id="after_winter_1000_above">6.63</td>
+            <td id="summer_increase_1000_above">10.01%</td>
+            <td id="winter_increase_1000_above">9.95%</td>
+        </tr>
+    </table>
+
+    <h4 class="mt-4 mb-3">試算電費</h4>
+    <table class="table table-striped">
+        <thead class="thead-dark">
+        <tr>
+            <th class="sheet_title">項目</th>
+            <th class="sheet_title">填入</th>
+            <th class="sheet_title" colspan="2">自動計算</th>
+        </tr>
+        </thead>
+        <tr>
+            <td class="box_style">你的帳單抄錶週期是？</td>
+            <td class="box_style">
+                <select class="enter_width" id="billingCycle">
+                    <option value="每月">每月</option>
+                    <option value="每兩個月" selected>每兩個月</option>
+                    <!-- 可以根據需要添加其他選項 -->
+                </select>
+            </td>
+            <td class="box_style">本次調漲幅度為</td>
+            <td class="enter_width" id="increasePercent"></td>
+        </tr>
+        <tr>
+            <td class="box_style">本次抄錶月份為 夏月／非夏月？</td>
+            <td class="box_style">
+                <select class="enter_width" id="select_month">
+                    <option value="夏月(6/1-9/30)">夏月(6/1-9/30)</option>
+                    <option value="非夏月">非夏月</option>
+                </select>
+            </td>
+            <td class="box_style">調漲前電費為</td>
+            <td class="enter_width" id="billBefore"></td>
+        </tr>
+        <tr>
+            <td class="box_style">本期的用電量為幾度？</td>
+            <td class="box_style enter_width"><input class="input" type="number" id="electricityUsage" min="0"> kWh</td>
+            <td class="box_style">調漲後電費為</td>
+            <td class="enter_width" id="billAfter"></td>
+        </tr>
+        <tr>
+            <td class="box_style"></td>
+            <td class="box_style"></td>
+            <td class="box_style">每度電平均為</td>
+            <td class="box_style" id="averagePrice"></td>
+        </tr>
+    </table>
+</div>
+
+<script>
+    // 獲取表單元素
+    const before_summer_list = [];
+    const after_summer_list = [];
+    const before_winter_list = [];
+    const after_winter_list = [];
+
+    const ids = [
+        "before_summer_0_120",
+        "before_winter_0_120",
+        "after_summer_0_120",
+        "after_winter_0_120",
+        "summer_increase_0_120",
+        "winter_increase_0_120",
+        "before_summer_121_330",
+        "before_winter_121_330",
+        "after_summer_121_330",
+        "after_winter_121_330",
+        "summer_increase_121_330",
+        "winter_increase_121_330",
+        "before_summer_331_500",
+        "before_winter_331_500",
+        "after_summer_331_500",
+        "after_winter_331_500",
+        "summer_increase_331_500",
+        "winter_increase_331_500",
+        "before_summer_501_700",
+        "before_winter_501_700",
+        "after_summer_501_700",
+        "after_winter_501_700",
+        "summer_increase_501_700",
+        "winter_increase_501_700",
+        "before_summer_701_1000",
+        "before_winter_701_1000",
+        "after_summer_701_1000",
+        "after_winter_701_1000",
+        "summer_increase_701_1000",
+        "winter_increase_701_1000",
+        "before_summer_1000_above",
+        "before_winter_1000_above",
+        "after_summer_1000_above",
+        "after_winter_1000_above",
+        "summer_increase_1000_above",
+        "winter_increase_1000_above"
+    ];
+
+    // 迴圈生成變數並加入列表
+    for (let i = 0; i < ids.length; i += 1) {
+        const textContent = document.getElementById(ids[i]).textContent;
+        const number = parseFloat(textContent);
+        const data = number.toFixed(2);
+
+        if (ids[i].includes("before_summer")){
+            before_summer_list.push(data);
+        }
+        if (ids[i].includes("after_summer")){
+            after_summer_list.push(data);
+        }
+        if (ids[i].includes("before_winter")){
+            before_winter_list.push(data);
+        }
+        if (ids[i].includes("after_winter")){
+            after_winter_list.push(data);
+        }
+       }
+
+    const billingCycleSelect = document.getElementById('billingCycle');
+    const monthSelect = document.getElementById('select_month');
+    const electricityUsageInput = document.getElementById('electricityUsage');
+
+    const increasePercent = document.getElementById('increasePercent');
+    const beforeBillPrice = document.getElementById('billBefore');
+    const afterBillPrice = document.getElementById('billAfter');
+    const averagePrice = document.getElementById('averagePrice');
+
+    // 監聽用戶輸入事件，更新結果
+    billingCycleSelect.addEventListener('change', updateElectricityBill);
+    monthSelect.addEventListener('change', updateElectricityBill);
+    electricityUsageInput.addEventListener('input', updateElectricityBill);
+
+    function countBillResult(cycle, usage, data_list) {
+        const bill_range = [120, 330, 500, 700, 1000];
+        let sum = 0;
+        let result = 0;
+        let prior_range = 0;
+        console.log(cycle, usage, data_list);
+        if (usage) {
+            if (cycle === "每月") {
+                for (let i = 0; i < bill_range.length; i++) {
+
+                    if (i != 0){
+                        prior_range = bill_range[i-1];
+                    }
+                    sum += bill_range[i];
+                    if (sum >= usage){
+                        result += data_list[i] * (usage-prior_range);
+                        break;
+                    } else {
+                        result += data_list[i] * (bill_range[i]-prior_range);
+                    }
+                    console.log(result, bill_range[i], data_list[i]);
+                }
+            } else {
+                for (let i = 0; i < bill_range.length; i++) {
+                    console.log(result, bill_range[i], data_list[i]);
+                    if (i != 0){
+                        prior_range = bill_range[i-1];
+                    }
+                    sum += bill_range[i]*2;
+                    if (sum >= (usage/2)){
+                        result += data_list[i] * (usage-(prior_range*2));
+                        break;
+                    } else {
+                        result += data_list[i] * (bill_range[i]-prior_range)*2;
+                    }
+                }
+            }
+        }
+
+        return result;
+    }
+
+    // 更新電費計算結果
+    function updateElectricityBill() {
+        // 計算電費
+        const cycle = billingCycleSelect.value;
+        const month_type = monthSelect.value;
+        const usage = parseFloat(electricityUsageInput.value);
+        let before_result = 0;
+        let after_result = 0;
+        if (month_type === "非夏月") {
+            before_result = countBillResult(cycle, usage, before_winter_list);
+            after_result = countBillResult(cycle, usage, after_winter_list);
+        } else {
+            before_result = countBillResult(cycle, usage, before_summer_list);
+            after_result = countBillResult(cycle, usage, after_summer_list);
+        }
+        console.log(before_result, after_result);
+        billBefore.textContent = before_result.toFixed(0) + " 台幣";
+        billAfter.textContent = after_result.toFixed(0) + " 台幣";
+
+        if (usage) {
+            // 計算漲幅
+            increase_value = (after_result/before_result - 1)* 100;
+            increasePercent.textContent = increase_value.toFixed(2) + " %";
+
+            // 計算均價
+            average_value = after_result/usage;
+            averagePrice.textContent = average_value.toFixed(2) + " 台幣";
+        }
+    }
+</script>
