@@ -72,13 +72,17 @@ const beforeBillPrice = document.getElementById('billBefore');
 const afterBillPrice = document.getElementById('billAfter');
 const averagePrice = document.getElementById('averagePrice');
 
+const landPrice = document.getElementById('landPrice');
+const diffPrice = document.getElementById('diffPrice');
+
 // 監聽用戶輸入事件，更新結果
 billingCycleSelect.addEventListener('change', updateElectricityBill);
 monthSelect.addEventListener('change', updateElectricityBill);
 electricityUsageInput.addEventListener('input', updateElectricityBill);
+landPrice.addEventListener('input', updateElectricityBill);
 
 function countBillResult(cycle, usage, data_list) {
-    const bill_range = [120, 330, 500, 700, 1000];
+    const bill_range = [120, 330, 500, 700, 1000, 1001];
     let sum = 0;
     let result = 0;
     let prior_range = 0;
@@ -86,15 +90,18 @@ function countBillResult(cycle, usage, data_list) {
     if (usage) {
         if (cycle === "每月") {
             for (let i = 0; i < bill_range.length; i++) {
-
                 if (i != 0){
                     prior_range = bill_range[i-1];
                 }
-                sum += bill_range[i];
+                sum = bill_range[i];
                 if (sum >= usage){
                     result += data_list[i] * (usage-prior_range);
                     break;
                 } else {
+                    if (i == 5){
+                        result += data_list[i] * (usage-prior_range);
+                        break;
+                    }
                     result += data_list[i] * (bill_range[i]-prior_range);
                 }
                 console.log(result, bill_range[i], data_list[i]);
@@ -105,11 +112,15 @@ function countBillResult(cycle, usage, data_list) {
                 if (i != 0){
                     prior_range = bill_range[i-1];
                 }
-                sum += bill_range[i]*2;
+                sum = bill_range[i]*2;
                 if (sum >= (usage/2)){
                     result += data_list[i] * (usage-(prior_range*2));
                     break;
                 } else {
+                    if (i == 5){
+                        result += data_list[i] * (usage-(prior_range*2));
+                        break;
+                    }
                     result += data_list[i] * (bill_range[i]-prior_range)*2;
                 }
             }
@@ -125,6 +136,7 @@ function updateElectricityBill() {
     const cycle = billingCycleSelect.value;
     const month_type = monthSelect.value;
     const usage = parseFloat(electricityUsageInput.value);
+    const landPrice_value = parseFloat(landPrice.value);
     let before_result = 0;
     let after_result = 0;
     if (month_type === "非夏月") {
@@ -146,5 +158,11 @@ function updateElectricityBill() {
         // 計算均價
         average_value = after_result/usage;
         averagePrice.textContent = average_value.toFixed(2) + " 台幣";
+
+        if (landPrice) {
+            diff_value = landPrice_value * usage - after_result;
+            diffPrice.textContent = diff_value.toFixed(0) + " 台幣";
+        }
     }
+
 }
