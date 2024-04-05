@@ -86,7 +86,7 @@ function countBillResult(cycle, usage, data_list) {
     let sum = 0;
     let result = 0;
     let prior_range = 0;
-    console.log(cycle, usage, data_list);
+    // console.log(cycle, usage, data_list);
     if (usage) {
         if (cycle === "每月") {
             for (let i = 0; i < bill_range.length; i++) {
@@ -96,31 +96,36 @@ function countBillResult(cycle, usage, data_list) {
                 sum = bill_range[i];
                 if (sum >= usage){
                     result += data_list[i] * (usage-prior_range);
+                    console.log(result, (usage-prior_range), data_list[i]);
                     break;
                 } else {
                     if (i == 5){
                         result += data_list[i] * (usage-prior_range);
+                        console.log(result, (usage-prior_range), data_list[i]);
                         break;
                     }
                     result += data_list[i] * (bill_range[i]-prior_range);
+                    console.log(result, bill_range[i], data_list[i]);
                 }
             }
         } else {
             for (let i = 0; i < bill_range.length; i++) {
-                console.log(result, bill_range[i], data_list[i]);
                 if (i != 0){
                     prior_range = bill_range[i-1];
                 }
                 sum = bill_range[i]*2;
                 if (sum >= usage){
                     result += data_list[i] * (usage-(prior_range*2));
+                    console.log(result, (usage-(prior_range*2), data_list[i]);
                     break;
                 } else {
                     if (i == 5){
                         result += data_list[i] * (usage-(prior_range*2));
+                        console.log(result,(usage-(prior_range*2)), data_list[i]);
                         break;
                     }
                     result += data_list[i] * (bill_range[i]-prior_range)*2;
+                    console.log(result, bill_range[i], 2, data_list[i]);
                 }
             }
         }
@@ -145,7 +150,7 @@ function updateElectricityBill() {
         before_result = countBillResult(cycle, usage, before_summer_list);
         after_result = countBillResult(cycle, usage, after_summer_list);
     }
-    // console.log(before_result, after_result);
+    console.log(before_result.toFixed(2), after_result.toFixed(2));
     billBefore.textContent = before_result.toFixed(0) + " 台幣";
     billAfter.textContent = after_result.toFixed(0) + " 台幣";
 
