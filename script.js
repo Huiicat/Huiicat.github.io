@@ -150,7 +150,7 @@ function updateElectricityBill() {
         before_result = countBillResult(cycle, usage, before_summer_list);
         after_result = countBillResult(cycle, usage, after_summer_list);
     }
-    console.log(before_result.toFixed(2), after_result.toFixed(2));
+    console.log(before_result, after_result);
     billBefore.textContent = before_result.toFixed(0) + " 台幣";
     billAfter.textContent = after_result.toFixed(0) + " 台幣";
 
